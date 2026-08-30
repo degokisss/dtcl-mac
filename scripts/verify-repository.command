@@ -188,7 +188,8 @@ done < <(find . -not -path './.git' -not -path './.git/*' \
     -not -path './launcher/.build' -not -path './launcher/.build/*' \
     -not -path './dist' -not -path './dist/*' \
     -not -path './dist-build*' -not -path './dist-build*/*' \
-    -not -path './runtime' -not -path './runtime/*')
+    -not -path './runtime' -not -path './runtime/*' \
+    -not -path './private' -not -path './private/*')
 
 typeset forbidden_path
 while IFS= read -r forbidden_path; do

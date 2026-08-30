@@ -63,18 +63,18 @@ while kill -0 "$child_pid" >/dev/null 2>&1; do
             && "$TFT_ADB" -s "$TFT_SERIAL" get-state >/dev/null 2>&1 \
             && [[ "$("$TFT_ADB" -s "$TFT_SERIAL" shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')" == "1" ]]; then
         "$TFT_ADB" -s "$TFT_SERIAL" shell cmd locale set-app-locales \
-            com.riotgames.league.teamfighttactics "$TFT_GAME_LANGUAGE" \
+            com.riotgames.league.teamfighttacticsvn "$TFT_GAME_LANGUAGE" \
             >>"$TFT_LAUNCH_LOG" 2>&1 || true
         locale_applied=1
     fi
     if (( emitted_ready == 0 )) \
             && "$TFT_ADB" -s "$TFT_SERIAL" get-state >/dev/null 2>&1 \
-            && [[ -n "$("$TFT_ADB" -s "$TFT_SERIAL" shell pidof com.riotgames.league.teamfighttactics 2>/dev/null | tr -d '\r')" ]]; then
+            && [[ -n "$("$TFT_ADB" -s "$TFT_SERIAL" shell pidof com.riotgames.league.teamfighttacticsvn 2>/dev/null | tr -d '\r')" ]]; then
         emit "{\"event\":\"ready\",\"message\":\"TFT is open\",\"serial\":\"$TFT_SERIAL\"}"
         emitted_ready=1
     fi
     if (( emitted_ready == 1 )); then
-        if [[ -n "$("$TFT_ADB" -s "$TFT_SERIAL" shell pidof com.riotgames.league.teamfighttactics 2>/dev/null | tr -d '\r')" ]]; then
+        if [[ -n "$("$TFT_ADB" -s "$TFT_SERIAL" shell pidof com.riotgames.league.teamfighttacticsvn 2>/dev/null | tr -d '\r')" ]]; then
             missing_game_checks=0
         else
             (( missing_game_checks += 1 ))

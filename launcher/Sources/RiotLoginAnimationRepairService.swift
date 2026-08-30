@@ -9,7 +9,7 @@ import Foundation
 /// those two presentation animations. It never focuses a field, opens the
 /// keyboard, or reads/writes form values.
 final class RiotLoginAnimationRepairService {
-    private static let package = "com.riotgames.league.teamfighttactics"
+    private static let package = "com.riotgames.league.teamfighttacticsvn"
     private static let loginActivity = "com.riotgames.platformui.mobilefre.MobileFREWebViewActivity"
     private static let loginComponent = "\(package)/\(loginActivity)"
     private static let adbServerPort = "5038"

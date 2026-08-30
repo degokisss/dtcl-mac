@@ -45,10 +45,10 @@ fi
 
 typeset -A EXPECTED_APK_HASHES
 EXPECTED_APK_HASHES=(
-    base.apk 020cac678a80783d3fd092a93d6ccd3bb53becffca24a1fc367714b84467d97a
-    config.arm64_v8a.apk 29194f199ffc9a61cc96f6f265e79a8a8e8f558f7796370188a1a233e83e403d
-    config.en.apk 3d4893049d1229a940f148268a9aeb63fbda2b21084875b2aa9feb631d66bc04
-    config.mdpi.apk db8ffe004222597c7e0b51c39899fd599129ea32a56fc4e9ec11f65fcf15f431
+    base.apk 2bc1bc9db22a3b0b62b7380023478c0c2e47c632517463860c635f33e164523a
+    config.arm64_v8a.apk 8ea5ec6fd799f00f088fb458729c3e789d91393baf5962bae33b6473fcf41d54
+    config.en.apk 9133ee83069f3b7827b3f21597cb0fc72d4747b0418a0deb9137c31d8a95979f
+    config.mdpi.apk 3fbb5d53556cca700833fd702b74c3398457585052ca47e060df4d50f5989c4e
 )
 
 for apk expected_hash in ${(kv)EXPECTED_APK_HASHES}; do

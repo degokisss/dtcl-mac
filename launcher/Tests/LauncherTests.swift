@@ -17,7 +17,7 @@ enum LauncherTests {
         try expect(manifest.game.apks.count == 4, "APK count")
         let hostedPrivateKey = Curve25519.Signing.PrivateKey()
         let hostedRelease = GameRelease(
-            packageName: "com.riotgames.league.teamfighttactics",
+            packageName: "com.riotgames.league.teamfighttacticsvn",
             version: "18.2-test",
             versionCode: 8_220_001,
             baseSHA256: String(repeating: "a", count: 64),
@@ -143,13 +143,13 @@ enum LauncherTests {
             "V players-and-damage hotkey touch targets"
         )
         let surfaceLayer = """
-            RequestedLayerState{SurfaceView[com.riotgames.league.teamfighttactics/com.epicgames.unreal.GameActivity](BLAST)#103 parentId=102}
+            RequestedLayerState{SurfaceView[com.riotgames.league.teamfighttacticsvn/com.epicgames.unreal.GameActivity](BLAST)#103 parentId=102}
             """
         try expect(
             SurfaceFlingerFPS.gameLayer(
                 from: surfaceLayer,
-                package: "com.riotgames.league.teamfighttactics"
-            ) == "SurfaceView[com.riotgames.league.teamfighttactics/com.epicgames.unreal.GameActivity](BLAST)#103",
+                package: "com.riotgames.league.teamfighttacticsvn"
+            ) == "SurfaceView[com.riotgames.league.teamfighttacticsvn/com.epicgames.unreal.GameActivity](BLAST)#103",
             "FPS overlay SurfaceFlinger layer selection"
         )
         let latencyOutput = """
@@ -758,11 +758,11 @@ enum LauncherTests {
         )
         let gameActivityOutput = """
             Display #0:
-              topResumedActivity=ActivityRecord{abc123 u0 com.riotgames.league.teamfighttactics/com.epicgames.unreal.GameActivity t42}
+              topResumedActivity=ActivityRecord{abc123 u0 com.riotgames.league.teamfighttacticsvn/com.epicgames.unreal.GameActivity t42}
             """
         let loginActivityOutput = """
-            mResumedActivity: ActivityRecord{old u0 com.riotgames.league.teamfighttactics/com.epicgames.unreal.GameActivity t41}
-            topResumedActivity=ActivityRecord{def456 u0 com.riotgames.league.teamfighttactics/com.riotgames.platformui.MobileFREWebViewActivity t42}
+            mResumedActivity: ActivityRecord{old u0 com.riotgames.league.teamfighttacticsvn/com.epicgames.unreal.GameActivity t41}
+            topResumedActivity=ActivityRecord{def456 u0 com.riotgames.league.teamfighttacticsvn/com.riotgames.platformui.MobileFREWebViewActivity t42}
             """
         try expect(
             BridgeAndroidActivityClassifier.classify(dumpsysOutput: gameActivityOutput) == .gameplay

@@ -88,7 +88,7 @@ struct GameRelease: Codable, Equatable {
     let apks: [GameAPK]
 
     func validate() throws {
-        guard packageName == "com.riotgames.league.teamfighttactics",
+        guard packageName == "com.riotgames.league.teamfighttacticsvn",
               !version.isEmpty,
               baseSHA256.isLowercaseSHA256,
               (1 ... 32).contains(apks.count),
