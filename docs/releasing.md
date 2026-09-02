@@ -13,11 +13,16 @@ Do not casually change:
 - game-host bundle ID `dev.sergeinaumov.mactician.game-host`;
 - app name and executable `Mactician`;
 - Application Support and DMG volume name `Mactician`;
-- Sparkle feed `https://sergeinaumov.dev/mactician/updates/appcast.xml`;
-- pinned Sparkle Ed25519 public key in `launcher/Info.plist`;
+- Sparkle feed `https://raw.githubusercontent.com/degokisss/dtcl-mac/master/appcast.xml`;
+- pinned Sparkle Ed25519 public key in `launcher/Info.plist` (signed with the
+  `dtcl-mac-sparkle` Keychain account — set
+  `MACTICIAN_SPARKLE_ACCOUNT=dtcl-mac-sparkle` before running
+  `publish-mactician-update.command`);
 - UserDefaults domain and Keychain service `dev.sergeinaumov.mactician`;
 - Android package ID, release-manifest hashes, or the `Android_Codex` device
-  profile identifier.
+  profile identifier. This fork intentionally pins the VNG package
+  `com.riotgames.league.teamfighttacticsvn` instead of upstream's global
+  package; see `scripts/switch-to-vng-tft.command`.
 
 These are the only current product identifiers. No old feed, local-data path,
 redirect, alias, or compatibility wrapper is part of the release.

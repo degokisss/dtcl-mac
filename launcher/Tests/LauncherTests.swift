@@ -908,11 +908,12 @@ enum LauncherTests {
         try expect(infoPlist["CFBundleShortVersionString"] as? String == "1.1.3", "launcher version")
         try expect(infoPlist["CFBundleVersion"] as? String == "48", "launcher build")
         try expect(
-            infoPlist["SUFeedURL"] as? String == "https://sergeinaumov.dev/mactician/updates/appcast.xml",
+            infoPlist["SUFeedURL"] as? String
+                == "https://raw.githubusercontent.com/degokisss/dtcl-mac/master/appcast.xml",
             "Sparkle appcast URL"
         )
         try expect(
-            infoPlist["SUPublicEDKey"] as? String == "77t8YuvP4mvvP/3oMpVR/TqGRMCcUlrpWFIZGcWqokY=",
+            infoPlist["SUPublicEDKey"] as? String == "dXc0pibzXEfshBc97jXV0dMBsrTbshGAQyIilZO7CP4=",
             "Sparkle public key"
         )
         try expect(

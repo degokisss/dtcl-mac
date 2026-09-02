@@ -28,8 +28,8 @@ done
 readonly SPARKLE_ROOT="$("$PROJECT_DIR/scripts/prepare-sparkle.command")"
 readonly GENERATE_APPCAST="$SPARKLE_ROOT/bin/generate_appcast"
 readonly SPARKLE_ACCOUNT="${MACTICIAN_SPARKLE_ACCOUNT:-}"
-readonly UPDATE_BASE_URL="${MACTICIAN_UPDATE_BASE_URL:-https://sergeinaumov.dev/mactician/updates}"
-readonly PRODUCT_URL="${MACTICIAN_UPDATE_PRODUCT_URL:-https://sergeinaumov.dev/mactician}"
+readonly UPDATE_BASE_URL="${MACTICIAN_UPDATE_BASE_URL:-}"
+readonly PRODUCT_URL="${MACTICIAN_UPDATE_PRODUCT_URL:-}"
 readonly SSH_TARGET="${MACTICIAN_UPDATE_SSH_TARGET:-}"
 readonly SSH_PORT="${MACTICIAN_UPDATE_SSH_PORT:-}"
 readonly REMOTE_ROOT="${MACTICIAN_UPDATE_REMOTE_ROOT:-}"
@@ -38,6 +38,10 @@ readonly UPDATE_ROOT="${MACTICIAN_UPDATE_WORKDIR:-$PROJECT_DIR/dist/mactician-up
 
 if [[ -z "$SPARKLE_ACCOUNT" ]]; then
     print -u2 "MACTICIAN_SPARKLE_ACCOUNT must name the Sparkle Ed25519 key stored in Keychain."
+    exit 2
+fi
+if [[ -z "$UPDATE_BASE_URL" || -z "$PRODUCT_URL" ]]; then
+    print -u2 "MACTICIAN_UPDATE_BASE_URL and MACTICIAN_UPDATE_PRODUCT_URL must name the update host you control."
     exit 2
 fi
 
@@ -67,7 +71,7 @@ if [[ "$BUNDLE_ID" != "dev.sergeinaumov.mactician" ]]; then
     print -u2 "Unexpected launcher bundle identifier: $BUNDLE_ID"
     exit 1
 fi
-if [[ "$PUBLIC_KEY" != "77t8YuvP4mvvP/3oMpVR/TqGRMCcUlrpWFIZGcWqokY=" ]]; then
+if [[ "$PUBLIC_KEY" != "dXc0pibzXEfshBc97jXV0dMBsrTbshGAQyIilZO7CP4=" ]]; then
     print -u2 "The launcher does not contain the expected Sparkle public key."
     exit 1
 fi

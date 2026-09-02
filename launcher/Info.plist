@@ -47,9 +47,9 @@
     <key>SUEnableAutomaticChecks</key>
     <true/>
     <key>SUFeedURL</key>
-    <string>https://sergeinaumov.dev/mactician/updates/appcast.xml</string>
+    <string>https://raw.githubusercontent.com/degokisss/dtcl-mac/master/appcast.xml</string>
     <key>SUPublicEDKey</key>
-    <string>77t8YuvP4mvvP/3oMpVR/TqGRMCcUlrpWFIZGcWqokY=</string>
+    <string>dXc0pibzXEfshBc97jXV0dMBsrTbshGAQyIilZO7CP4=</string>
     <key>SUScheduledCheckInterval</key>
     <integer>86400</integer>
     <key>SUVerifyUpdateBeforeExtraction</key>
