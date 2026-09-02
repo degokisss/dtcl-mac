@@ -13,6 +13,10 @@ The current application metadata is version 1.1.3, build 48.
   `18.1-5392842`, which includes Riot's 18.1B performance fixes.
 - Enable Riot's built-in Performance Mode with the **Maximum FPS** preset, and
   disable it again when another graphics-detail preset is selected.
+- Retarget the pinned TFT release from Riot's global Direct package to VNG's
+  Vietnam-licensed package (`com.riotgames.league.teamfighttacticsvn`,
+  "Dau Truong Chan Ly"), reapplied on top of the `18.1-5392842` merge; see
+  `scripts/switch-to-vng-tft.command`.
 
 ## 1.1.3 — 2026-09-01
 
