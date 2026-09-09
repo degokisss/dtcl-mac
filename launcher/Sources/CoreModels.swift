@@ -18,9 +18,12 @@ enum MacticianIdentity {
     )!
     static let issueURL = URL(string: "https://github.com/tweet9ra/mactician/issues/new/choose")!
     static let gameUpdateURL = URL(
-        string: "https://sergeinaumov.dev/mactician/updates/game/manifest.json"
+        string: "https://raw.githubusercontent.com/degokisss/dtcl-mac/master/game-manifest.json"
     )!
-    static let gameUpdatePublicKeyBase64 = "Nadxne/Zs1kndXT8OpaShZCEgK/LqUtMv4aqGQNzCcM="
+    static let gameUpdatePublicKeyBase64 = "mkUn//S+BJ1UwD4Oaou4IHPxzL8KYKWtxOYGGfTuKP0="
+    static let gameReleaseAssetHost = "github.com"
+    static let gameReleaseAssetPathPrefix = "/degokisss/dtcl-mac/releases/download/"
+    static let tftPlayStorePackageName = "com.riotgames.league.teamfighttacticsvn"
 }
 
 struct ReleaseManifest: Codable, Equatable {
@@ -230,6 +233,7 @@ struct InstallState: Codable, Equatable {
     var gameVersionCode: Int?
     var gameBaseSHA256: String?
     var overlaySHA256: String?
+    var playStoreAdvisoryLastKnownDate: String?
     var updatedAt: Date = Date()
 
     var isReady: Bool { schemaVersion == 1 && stage == .ready }

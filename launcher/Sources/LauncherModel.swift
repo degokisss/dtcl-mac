@@ -34,6 +34,8 @@ final class LauncherModel: ObservableObject {
     @Published private(set) var gameUpdateResultMessage: String?
     @Published private(set) var isGameUpdateAvailable = false
     @Published private(set) var isCheckingGameUpdate = false
+    @Published private(set) var isPlayStoreUpdateAdvisoryAvailable = false
+    @Published private(set) var playStoreAdvisoryDate: String?
     @Published var shouldShowTelemetryNotice: Bool
     @Published var extendedDiagnosticsEnabled: Bool
     @Published private(set) var activeConfiguration: LaunchConfigurationSnapshot?
@@ -69,6 +71,7 @@ final class LauncherModel: ObservableObject {
     private var gameSessionTracker = GameSessionTracker()
     private var pendingAnnouncements: [LauncherAnnouncement] = []
     private var activeRuntimeKind: GameRuntimeKind?
+    private var playStoreAdvisoryCheckedThisSession = false
 
     init() {
         do {
@@ -322,6 +325,7 @@ final class LauncherModel: ObservableObject {
         activeConfiguration = nil
         isGameUpdateAvailable = false
         isCheckingGameUpdate = false
+        isPlayStoreUpdateAdvisoryAvailable = false
         loginAnimationRepair.stop()
         audioRecovery.stop()
         fpsOverlay.stop()
@@ -661,6 +665,33 @@ final class LauncherModel: ObservableObject {
         gameUpdateResultMessage = nil
     }
 
+    func refreshPlayStoreAdvisory() {
+        guard selectedRuntimeKind == .androidEmulator,
+              mode == .ready,
+              !playStoreAdvisoryCheckedThisSession else { return }
+        playStoreAdvisoryCheckedThisSession = true
+        let previousDate = installState.playStoreAdvisoryLastKnownDate
+        DispatchQueue.global(qos: .utility).async { [weak self] in
+            guard let self, let result = try? PlayStoreUpdateAdvisory.check(previousDate: previousDate) else { return }
+            DispatchQueue.main.async {
+                self.installState.playStoreAdvisoryLastKnownDate = result.latestUpdateDate
+                try? SystemServices.saveState(self.installState, to: self.paths.stateFile)
+                if result.changed {
+                    self.playStoreAdvisoryDate = result.latestUpdateDate
+                    self.isPlayStoreUpdateAdvisoryAvailable = true
+                    SystemServices.appendLog(
+                        "Play Store advisory: TFT listing last-updated date changed to \(result.latestUpdateDate).",
+                        to: self.paths.launcherLog
+                    )
+                }
+            }
+        }
+    }
+
+    func dismissPlayStoreAdvisory() {
+        isPlayStoreUpdateAdvisoryAvailable = false
+    }
+
     func reset() {
         guard selectedRuntimeKind == .androidEmulator,
               !maintenanceLocked,
@@ -678,6 +709,7 @@ final class LauncherModel: ObservableObject {
             installState = InstallState()
             isGameUpdateAvailable = false
             isCheckingGameUpdate = false
+            isPlayStoreUpdateAdvisoryAvailable = false
             mode = .needsInstall
             failure = nil
             installationWasCancelled = false

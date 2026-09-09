@@ -2508,6 +2508,7 @@ xcrun swiftc \
     -module-cache-path "$LAUNCHER_DIR/.build/module-cache" \
     "$LAUNCHER_DIR/Sources/CoreModels.swift" \
     "$LAUNCHER_DIR/Sources/HostedGameUpdate.swift" \
+    "$LAUNCHER_DIR/Sources/PlayStoreUpdateAdvisory.swift" \
     "$LAUNCHER_DIR/Sources/LauncherPresentation.swift" \
     "$LAUNCHER_DIR/Sources/LauncherTelemetryService.swift" \
     "$LAUNCHER_DIR/Sources/LauncherPaths.swift" \

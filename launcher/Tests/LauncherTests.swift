@@ -26,13 +26,13 @@ enum LauncherTests {
                     name: "base.apk",
                     size: 100,
                     sha256: String(repeating: "a", count: 64),
-                    url: URL(string: "https://sergeinaumov.dev/mactician/updates/game/releases/aaaaaaaa/base.apk")
+                    url: URL(string: "https://github.com/degokisss/dtcl-mac/releases/download/game-18.2-test/base.apk")
                 ),
                 GameAPK(
                     name: "split_config.arm64_v8a.apk",
                     size: 50,
                     sha256: String(repeating: "b", count: 64),
-                    url: URL(string: "https://sergeinaumov.dev/mactician/updates/game/releases/aaaaaaaa/split_config.arm64_v8a.apk")
+                    url: URL(string: "https://github.com/degokisss/dtcl-mac/releases/download/game-18.2-test/split_config.arm64_v8a.apk")
                 )
             ]
         )
@@ -88,6 +88,59 @@ enum LauncherTests {
         } catch let error as LauncherError {
             try expect(error == .integrity("The TFT feed signature is invalid"), "tampered game feed rejection")
         }
+        let untrustedHostRelease = GameRelease(
+            packageName: hostedRelease.packageName,
+            version: hostedRelease.version,
+            versionCode: hostedRelease.versionCode,
+            baseSHA256: hostedRelease.baseSHA256,
+            apks: [
+                GameAPK(
+                    name: "base.apk",
+                    size: 100,
+                    sha256: String(repeating: "a", count: 64),
+                    url: URL(string: "https://evil.example.com/degokisss/dtcl-mac/releases/download/game-18.2-test/base.apk")
+                )
+            ]
+        )
+        let untrustedHostPayload = try JSONEncoder().encode(HostedGameFeed(
+            schemaVersion: 1,
+            publishedAt: "2026-08-12T12:00:00Z",
+            release: untrustedHostRelease
+        ))
+        let untrustedHostSignature = try hostedPrivateKey.signature(for: untrustedHostPayload)
+        let untrustedHostEnvelope = try JSONEncoder().encode(HostedGameFeedEnvelope(
+            schemaVersion: 1,
+            payload: untrustedHostPayload.base64EncodedString(),
+            signature: untrustedHostSignature.base64EncodedString()
+        ))
+        do {
+            _ = try HostedGameUpdate.decodeAndVerify(
+                untrustedHostEnvelope,
+                publicKeyBase64: hostedPrivateKey.publicKey.rawRepresentation.base64EncodedString()
+            )
+            throw TestFailure("hosted game feed with an untrusted APK host was accepted")
+        } catch let error as LauncherError {
+            try expect(
+                error == .invalidManifest("APK base.apk uses an untrusted URL"),
+                "untrusted APK host rejection"
+            )
+        }
+        let playStoreFixtureHTML = """
+        <div class="za5NB">Giao Tranh Tự Động Giả Tưởng</div><div class="TKjAsc"><div><div class="lXlx5">Lần cập nhật gần đây nhất</div><div class="xg1aie">4 thg 9, 2026</div></div></div><div class="Uc6QCc">
+        """
+        try expect(
+            PlayStoreUpdateAdvisory.extractLatestUpdateDate(from: playStoreFixtureHTML) == "4 thg 9, 2026",
+            "Play Store advisory date extraction"
+        )
+        try expect(
+            PlayStoreUpdateAdvisory.extractLatestUpdateDate(from: "<div>no matching label here</div>") == nil,
+            "Play Store advisory date extraction absence"
+        )
+        try expect(
+            PlayStoreUpdateAdvisory.CheckResult(latestUpdateDate: "4 thg 9, 2026", changed: false) ==
+                PlayStoreUpdateAdvisory.CheckResult(latestUpdateDate: "4 thg 9, 2026", changed: false),
+            "Play Store advisory result equality"
+        )
         try expect(
             manifest.profiles.map(\.id) == ["balanced", "quality", "ultra", "4k"],
             "profile order"

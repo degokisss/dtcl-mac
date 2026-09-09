@@ -57,6 +57,10 @@
 "game_update.updated.message" = "TFT was updated to version %@ and is ready to play.";
 "game_update.current.message" = "No update is available. Installed TFT version %@ already matches the hosted version.";
 
+"play_store_advisory.title" = "Possible TFT update on Play Store";
+"play_store_advisory.body" = "The Play Store listing's last-updated date changed to %@. This is only a hint, not a verified version -- get fresh split APKs and rerun scripts/switch-to-vng-tft.command to actually update the pinned build.";
+"play_store_advisory.open_play_store" = "Open Play Store listing";
+
 "telemetry.notice.title" = "Usage statistics and diagnostics";
 "telemetry.notice.body" = "When opened, Mactician sends at most one anonymous daily-activity heartbeat per UTC day. After every completed game session, it also sends a duration-only summary. Neither event has a persistent identifier, device characteristics, settings, or exact time. Choose whether to also send extended diagnostics with Mac characteristics, launcher settings, and the exact session completion time.";
 "telemetry.extended.toggle" = "Also send extended diagnostics: Mac characteristics, launcher settings, and exact session completion time.";

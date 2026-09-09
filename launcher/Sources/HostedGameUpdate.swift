@@ -23,12 +23,12 @@ struct HostedGameFeed: Codable, Equatable {
         for apk in release.apks {
             guard let url = apk.url,
                   url.scheme == "https",
-                  url.host == MacticianIdentity.gameUpdateURL.host,
+                  url.host == MacticianIdentity.gameReleaseAssetHost,
                   url.user == nil,
                   url.password == nil,
                   url.query == nil,
                   url.fragment == nil,
-                  url.path.hasPrefix("/mactician/updates/game/releases/") else {
+                  url.path.hasPrefix(MacticianIdentity.gameReleaseAssetPathPrefix) else {
                 throw LauncherError.invalidManifest("APK \(apk.name) uses an untrusted URL")
             }
         }

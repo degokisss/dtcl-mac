@@ -389,6 +389,9 @@ private struct LauncherReadyView: View {
                 }
             }
 
+            if model.isPlayStoreUpdateAdvisoryAvailable {
+                playStoreAdvisoryRow
+            }
             HStack(spacing: LauncherTheme.Spacing.medium) {
                 languageField
                 profileField
@@ -400,6 +403,7 @@ private struct LauncherReadyView: View {
         .onAppear {
             model.refreshHotkeyStatus()
             model.refreshGameUpdateAvailability()
+            model.refreshPlayStoreAdvisory()
         }
         .alert(
             LauncherL10n.text("game_update.result.title"),
@@ -551,6 +555,55 @@ private struct LauncherReadyView: View {
         .padding(.horizontal, LauncherTheme.Spacing.regular)
         .padding(.vertical, LauncherTheme.Spacing.medium)
         .contentShape(Rectangle())
+    }
+
+    private var playStoreAdvisoryRow: some View {
+        HStack(spacing: LauncherTheme.Spacing.medium) {
+            Image(systemName: "exclamationmark.arrow.triangle.2.circlepath")
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundColor(LauncherTheme.ColorToken.warning)
+                .accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(LauncherL10n.text("play_store_advisory.title"))
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundColor(LauncherTheme.ColorToken.textPrimary)
+                Text(
+                    String(
+                        format: LauncherL10n.text("play_store_advisory.body"),
+                        model.playStoreAdvisoryDate ?? ""
+                    )
+                )
+                .font(.system(size: 11))
+                .foregroundColor(LauncherTheme.ColorToken.textSecondary)
+                .fixedSize(horizontal: false, vertical: true)
+            }
+            Spacer()
+            Link(
+                LauncherL10n.text("play_store_advisory.open_play_store"),
+                destination: playStoreListingURL
+            )
+            .font(.system(size: 11, weight: .semibold))
+            .foregroundColor(LauncherTheme.ColorToken.interactive)
+            Button(LauncherL10n.text("action.close")) { model.dismissPlayStoreAdvisory() }
+                .buttonStyle(LauncherTertiaryButtonStyle())
+        }
+        .padding(.horizontal, LauncherTheme.Spacing.regular)
+        .frame(minHeight: 56)
+        .background(
+            RoundedRectangle(cornerRadius: LauncherTheme.Metric.controlRadius)
+                .fill(LauncherTheme.ColorToken.warning.opacity(0.09))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: LauncherTheme.Metric.controlRadius)
+                .stroke(LauncherTheme.ColorToken.warning.opacity(0.36), lineWidth: 1)
+        )
+        .accessibilityElement(children: .combine)
+    }
+
+    private var playStoreListingURL: URL {
+        var components = URLComponents(string: "https://play.google.com/store/apps/details")!
+        components.queryItems = [URLQueryItem(name: "id", value: MacticianIdentity.tftPlayStorePackageName)]
+        return components.url!
     }
 
     private var hotkeyRow: some View {
